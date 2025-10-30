@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member member = memberRepository.findMemberByUserName(username)
+        Member member = memberRepository.findMemberByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
         List<SimpleGrantedAuthority> roles = new ArrayList<>();

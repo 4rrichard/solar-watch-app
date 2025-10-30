@@ -50,7 +50,7 @@ public class MemberControllerIT {
                         .content(objectMapper.writeValueAsString(memberDTO)))
                 .andExpect(status().isCreated());
 
-        Optional<Member> savedUserOptional = memberRepository.findMemberByUserName("testuser");
+        Optional<Member> savedUserOptional = memberRepository.findMemberByUsername("testuser");
         assertTrue(savedUserOptional.isPresent());
     }
 

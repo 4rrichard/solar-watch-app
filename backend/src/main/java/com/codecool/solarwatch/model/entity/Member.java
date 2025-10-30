@@ -12,7 +12,7 @@ public class Member {
     @GeneratedValue
     private Long id;
     @Column(unique = true)
-    private String userName;
+    private String username;
     private String password;
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "member_roles", joinColumns = @JoinColumn(name = "member_id"))
@@ -28,11 +28,11 @@ public class Member {
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.username = userName;
     }
 
     public String getPassword() {

@@ -53,17 +53,17 @@ public class MemberServiceTest {
         existingMember.setUserName("existingUser");
         existingMember.setRoles(Set.of(Role.ROLE_MEMBER));
 
-        when(memberRepository.findMemberByUserName("existingUser")).thenReturn(Optional.of(existingMember));
+        when(memberRepository.findMemberByUsername("existingUser")).thenReturn(Optional.of(existingMember));
 
         memberService.updateMember("existingUser");
 
-        verify(memberRepository, times(1)).findMemberByUserName("existingUser");
+        verify(memberRepository, times(1)).findMemberByUsername("existingUser");
         verify(memberRepository, times(1)).save(any(Member.class));
     }
 
     @Test
     public void testUpdateMember_UserNotFound() {
-        when(memberRepository.findMemberByUserName("nonExistingUser")).thenReturn(Optional.empty());
+        when(memberRepository.findMemberByUsername("nonExistingUser")).thenReturn(Optional.empty());
 
         IllegalArgumentException exception = org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -> {
             memberService.updateMember("nonExistingUser");

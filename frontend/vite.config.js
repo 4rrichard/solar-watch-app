@@ -1,18 +1,22 @@
-import dotenv from 'dotenv'
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import dotenv from "dotenv";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
-dotenv.config( {path: '../.env' })
+const envFile = process.env.DOCKER ? "../.env.docker" : "../.env.local";
+dotenv.config({ path: envFile });
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  server: {
-    host: true,
-    strictPort:true,
-    port:5173,
-    proxy: {
-      '/api': process.env.BACKEND_URL
+    plugins: [react()],
+    server: {
+        host: true,
+        port: 5173,
+        strictPort: true,
+        proxy: {
+            "/api": {
+                target: process.env.BACKEND_URL || "http://localhost:8080",
+                changeOrigin: true,
+                secure: false,
+            },
+        },
     },
-  },
-})
+});

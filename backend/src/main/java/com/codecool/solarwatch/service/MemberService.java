@@ -37,7 +37,7 @@ public class MemberService {
 
     @Transactional
     public void updateMember(String userName) {
-        Member member = memberRepository.findMemberByUserName(userName)
+        Member member = memberRepository.findMemberByUsername(userName)
                 .orElseThrow(() -> new IllegalArgumentException(format("user %s not found", userName)));
 
         Set<Role> newRoles = new HashSet<>(member.getRoles());

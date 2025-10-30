@@ -1,5 +1,5 @@
 services:
-  db:
+  solarwatch-db:
     image: postgres:16
     container_name: solarwatch-db
     environment:
@@ -8,18 +8,46 @@ services:
       POSTGRES_PASSWORD: solarwatch
     ports:
       - "5430:5432"
+    networks:
+      - solarwatch-network
 
-  app:
+  solarwatch-app:
     build:
       context: backend
       dockerfile: Dockerfile
     container_name: solarwatch-app
     depends_on:
-      - db
+      - solarwatch-db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/solarwatch
+      SPRING_DATASOURCE_URL: jdbc:postgresql://solarwatch-db:5432/solarwatch
       SPRING_DATASOURCE_USERNAME: solarwatch
       SPRING_DATASOURCE_PASSWORD: solarwatch
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     ports:
       - "8080:8080"
+    networks:
+      - solarwatch-network
+
+  solarwatch-frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    container_name: solarwatch-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - DOCKER=true
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+      - BACKEND_URL=http://solarwatch-app:8080
+
+    depends_on:
+      - solarwatch-app
+    networks:
+      - solarwatch-network
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+networks:
+  solarwatch-network:

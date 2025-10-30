@@ -42,19 +42,28 @@ public class MemberController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody MemberDTO loginRequest) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()
+                    )
+            );
 
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+            String jwt = jwtUtils.generateJwtToken(authentication);
+            User userDetails = (User) authentication.getPrincipal();
 
-        String jwt = jwtUtils.generateJwtToken(authentication);
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .toList();
 
-        User userDetails = (User) authentication.getPrincipal();
+            return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), roles));
 
-        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-                .toList();
-
-        return ResponseEntity
-                .ok(new JwtResponse(jwt, userDetails.getUsername(), roles));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid username or password");
+        }
     }
 
     @PutMapping("/admin")

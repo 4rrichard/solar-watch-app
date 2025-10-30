@@ -4,7 +4,7 @@ import Page from "../component/Page";
 import Form from "../component/Form";
 
 const SolarWatch = () => {
-    const token = JSON.parse(localStorage.getItem("jwt"));
+    const token = localStorage.getItem("jwt");
     const [date, setDate] = useState("");
     const [city, setCity] = useState("");
     const [sunrise, setSunrise] = useState("");

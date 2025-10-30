@@ -50,7 +50,7 @@ public class MemberServiceTest {
     @Test
     public void testUpdateMember() {
         Member existingMember = new Member();
-        existingMember.setUserName("existingUser");
+        existingMember.setUsername("existingUser");
         existingMember.setRoles(Set.of(Role.ROLE_MEMBER));
 
         when(memberRepository.findMemberByUsername("existingUser")).thenReturn(Optional.of(existingMember));

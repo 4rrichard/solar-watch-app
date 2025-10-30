@@ -28,7 +28,7 @@ public class MemberService {
     public void createMember(MemberDTO request) {
         Member member = new Member();
 
-        member.setUserName(request.getUsername());
+        member.setUsername(request.getUsername());
         member.setPassword(encoder.encode(request.getPassword()));
         member.setRoles(Set.of(Role.ROLE_MEMBER));
 

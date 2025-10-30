@@ -24,7 +24,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
 
-    @Autowired
     public AuthTokenFilter(JwtUtils jwtUtils, UserDetailsService userDetailsService) {
         this.jwtUtils = jwtUtils;
         this.userDetailsService = userDetailsService;
@@ -32,6 +31,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String path = request.getServletPath();
+
+        if (path.startsWith("/api/member/signin") || path.startsWith("/api/member/register")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         try {
             String jwt = extractJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {

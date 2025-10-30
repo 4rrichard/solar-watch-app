@@ -20,7 +20,7 @@ const Login = () => {
         }
 
         const responseBody = await response.json();
-        localStorage.setItem("jwt", responseBody.token);
+        localStorage.setItem("jwt", responseBody.jwt);
         navigate(`/solar-watch`);
     }
 

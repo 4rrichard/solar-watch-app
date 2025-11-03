@@ -16,34 +16,30 @@ services:
       context: backend
       dockerfile: Dockerfile
     container_name: solarwatch-app
+    env_file:
+      - .env.docker
     depends_on:
       - solarwatch-db
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://solarwatch-db:5432/solarwatch
-      SPRING_DATASOURCE_USERNAME: solarwatch
-      SPRING_DATASOURCE_PASSWORD: solarwatch
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-
-      CODECOOL_APP_JWTSECRET: YzRmZjQ4ZjktZjI3Yi00ZWFhLTk3YmEtYjI5M2Y0ZTQ5YjU3c2VjdXJlS2V5MTIz
-      CODECOOL_APP_JWTEXPIRATIONMS: 86400000
     ports:
       - "8080:8080"
     networks:
       - solarwatch-network
+
+
 
   solarwatch-frontend:
     build:
       context: frontend
       dockerfile: Dockerfile
     container_name: solarwatch-frontend
+    env_file:
+      - .env.docker
     ports:
       - "5173:5173"
     environment:
       - DOCKER=true
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
-      - BACKEND_URL=http://solarwatch-app:8080
-
     depends_on:
       - solarwatch-app
     networks:
@@ -51,6 +47,7 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
+
 
 networks:
   solarwatch-network:

@@ -45,6 +45,25 @@ solar-watch/
 
 ---
 
+## ⚙️ Environment Variables
+
+All required environment variables are documented in the `.env.sample` file.  
+They include settings for the **database**, **OpenWeather API**, and **JWT authentication**.
+
+Copy the example environment file and create your own `.env`:
+
+### 🖥️ macOS / Linux
+```bash
+cp .env.sample .env
+```
+### 🪟 Windows (PowerShell)
+```bash
+Copy-Item .env.sample .env
+```
+Then open the newly created `.env` file and fill in your own values.
+
+---
+
 ## 🐳 Run with Docker
 
 ### 🧭 Prerequisites

@@ -60,17 +60,15 @@ public class MemberController {
             return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), roles));
 
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid username or password");
         }
     }
 
-    @PutMapping("/admin")
     @PreAuthorize("hasRole('MEMBER')")
-    public ResponseEntity<Void> addAdminRole() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        memberService.updateMember(userDetails.getUsername());
-        return ResponseEntity.ok(null);
+    @PutMapping("/admin")
+    public ResponseEntity<Void> addAdminRole(@RequestParam String username) {
+        memberService.updateMember(username);
+        return ResponseEntity.ok().build();
     }
 }

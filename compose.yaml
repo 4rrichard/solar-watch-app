@@ -17,6 +17,7 @@ services:
       dockerfile: Dockerfile
     container_name: solarwatch-app
     env_file:
+      - .env
       - .env.docker
     depends_on:
       - solarwatch-db
@@ -33,6 +34,7 @@ services:
       dockerfile: Dockerfile
     container_name: solarwatch-frontend
     env_file:
+      - .env
       - .env.docker
     ports:
       - "5173:5173"

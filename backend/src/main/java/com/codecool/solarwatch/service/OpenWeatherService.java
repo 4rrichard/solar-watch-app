@@ -7,6 +7,7 @@ import com.codecool.solarwatch.service.repository.CityRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -15,7 +16,9 @@ import java.util.NoSuchElementException;
 @Service
 public class OpenWeatherService {
 
-    private static final String API_KEY = "83d6cc9ec9ff9628f3f9ce3ffaf0fe1c";
+    @Value("${openweather.api.key}")
+    private String apiKey;
+
     private static final String OPENWEATHER_API_URL = "https://api.openweathermap.org/geo/1.0/direct";
     private final WebClient webClient;
     private final CityRepository cityRepository;
@@ -70,7 +73,7 @@ public class OpenWeatherService {
     }
 
     private CityDTO getLatitudeAndLongitude(String city) {
-        String url = String.format("%s?q=%s&limit=1&appid=%s", OPENWEATHER_API_URL, city, API_KEY);
+        String url = String.format("%s?q=%s&limit=1&appid=%s", OPENWEATHER_API_URL, city, apiKey);
 
         CityDTO[] response = webClient
                 .get()

@@ -30,19 +30,7 @@ public class MemberService {
 
         member.setUsername(request.getUsername());
         member.setPassword(encoder.encode(request.getPassword()));
-        member.setRoles(Set.of(Role.ROLE_MEMBER));
-
-        memberRepository.save(member);
-    }
-
-    @Transactional
-    public void updateMember(String userName) {
-        Member member = memberRepository.findMemberByUsername(userName)
-                .orElseThrow(() -> new IllegalArgumentException(format("user %s not found", userName)));
-
-        Set<Role> newRoles = new HashSet<>(member.getRoles());
-        newRoles.add(Role.ROLE_ADMIN);
-        member.setRoles(newRoles);
+        member.setRoles(Set.of(Role.ROLE_MEMBER, Role.ROLE_ADMIN));
 
         memberRepository.save(member);
     }

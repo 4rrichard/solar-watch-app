@@ -64,11 +64,4 @@ public class MemberController {
                     .body("Invalid username or password");
         }
     }
-
-    @PreAuthorize("hasRole('MEMBER')")
-    @PutMapping("/admin")
-    public ResponseEntity<Void> addAdminRole(@RequestParam String username) {
-        memberService.updateMember(username);
-        return ResponseEntity.ok().build();
-    }
 }

@@ -3,7 +3,6 @@ package com.codecool.solarwatch.security;
 import com.codecool.solarwatch.security.jwt.AuthEntryPointJwt;
 import com.codecool.solarwatch.security.jwt.AuthTokenFilter;
 import com.codecool.solarwatch.security.jwt.JwtUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

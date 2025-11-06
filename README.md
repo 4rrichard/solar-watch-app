@@ -20,6 +20,7 @@ solar-watch/
 │   ├── Dockerfile
 │
 ├── compose.yaml                 # Docker Compose configuration
+├── .env.sample                  # Example
 ├── .env.local                   # Local environment (for development)
 ├── .env.docker                  # Docker environment (for containers)
 └── README.md
@@ -42,6 +43,41 @@ solar-watch/
 - Form-based authentication with JWT storage.
 - Environment-based backend proxy configuration.
 - Dockerized frontend accessible on port **5173**.
+
+---
+
+## ⚙️ Environment Variables
+
+All required environment variables are documented in the `.env.sample` file.  
+They include settings for the **database**, **OpenWeather API**, and **JWT authentication**.
+
+Copy the example environment file and create your own `.env`:
+
+### 🖥️ macOS / Linux
+```bash
+cp .env.sample .env
+```
+### 🪟 Windows (PowerShell)
+```bash
+Copy-Item .env.sample .env
+```
+Then open the newly created `.env` file and fill in your own values.
+
+### 💻 Frontend – `.env.local`
+
+Used when running the frontend locally with **Vite**:
+
+```bash
+BACKEND_URL=http://localhost:8080
+```
+
+### 💻 Docker – `.env.docker`
+
+Used automatically when running the full stack with **Docker Compose**:
+
+```bash
+BACKEND_URL=http://solarwatch-app:8080
+```
 
 ---
 
@@ -159,4 +195,6 @@ mvn clean test
 - UI improvements with **Material UI**
 - Add **location-based automatic city detection**
 - Enhanced **error handling** for invalid JWTs
-- **Docker volume** for persistent database storage  
+- **Docker volume** for persistent database storage
+- Use **HttpOnly cookies** or in-memory storage instead of `localStorage` for JWTs (better security)
+- Add **client-side validation** for required fields (e.g., date and city inputs)  
